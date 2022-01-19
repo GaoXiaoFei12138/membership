@@ -94,7 +94,7 @@ public class AdminController {
         if (currentPage == null || currentPage < 0){
             currentPage = 0;
         }
-        Pageable pageable = PageRequest.of(currentPage, 3);
+        Pageable pageable = PageRequest.of(currentPage, 10);
         return adminDao.findAll(pageable);
     }
 

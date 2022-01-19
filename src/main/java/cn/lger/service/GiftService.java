@@ -42,7 +42,7 @@ public class GiftService {
         if (currentPage == null) {
             currentPage = 1;
         }
-        Pageable pageable = new PageRequest(currentPage, 3);
+        Pageable pageable = new PageRequest(currentPage, 10);
         return giftDao.findAll(pageable);
     }
 

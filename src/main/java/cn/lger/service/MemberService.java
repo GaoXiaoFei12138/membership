@@ -36,7 +36,7 @@ public class MemberService {
         if (currentPage == null){
             currentPage = 1;
         }
-        Pageable pageable = new PageRequest(currentPage, 3, Sort.Direction.ASC, "id");
+        Pageable pageable = new PageRequest(currentPage, 10, Sort.Direction.ASC, "id");
         return memberDao.findAll(pageable);
     }
 
@@ -44,7 +44,7 @@ public class MemberService {
         if (currentPage == null){
             currentPage = 1;
         }
-        Pageable pageable = PageRequest.of(currentPage, 3, Sort.Direction.ASC, "id");
+        Pageable pageable = PageRequest.of(currentPage, 10, Sort.Direction.ASC, "id");
         return memberDao.findAllByMemberName(memberName, pageable);
     }
 
@@ -88,7 +88,7 @@ public class MemberService {
     }
 
     public List<String> findBirthdayToday() {
-        List<String> email = new ArrayList<String>();
+        List<String> email = new ArrayList<>();
 //        List<Member> members = memberDao.findByBirthday(LocalDate.now());
         List<Member> members = memberDao.findAll();
         int month = LocalDate.now().getMonthValue();

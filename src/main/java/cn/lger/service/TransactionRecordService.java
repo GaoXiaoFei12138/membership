@@ -21,12 +21,12 @@ public class TransactionRecordService {
     private TransactionRecordDao transactionRecordDao;
 
     public Page<TransactionRecord> findTransactionRecord(Integer currentPage){
-        Pageable pageable = PageRequest.of(currentPage, 3);
+        Pageable pageable = PageRequest.of(currentPage, 10);
         return transactionRecordDao.findAll(pageable);
     }
 
     public Page<TransactionRecord> findTransactionRecordByMemberId(Integer currentPage, String memberId) {
-        Pageable pageable = PageRequest.of(currentPage, 3);
+        Pageable pageable = PageRequest.of(currentPage, 10);
         return transactionRecordDao.findAllByMemberId(pageable, memberId);
     }
 }

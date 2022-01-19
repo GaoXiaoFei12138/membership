@@ -69,6 +69,8 @@ public class MemberController {
         member.setState("正常");
         member.setBalance((float) 0);
         member.setMemberIntegral(0L);
+        member.setPassword("123");
+        member.setEmail("123@qq.com");
         member.setPassword(encoder.encode(member.getPassword()));
 //        System.out.println(member);
         member = memberService.addMember(member);
@@ -105,7 +107,7 @@ public class MemberController {
     @ResponseBody
     public String modifyMemberStateView(String id, String state) {
         memberService.modifyMemberState(id, state);
-        return "modifyMemberState";
+        return "modify success";
     }
 
     @GetMapping("/deleteMember")

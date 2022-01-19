@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Home</title>
+    <title>一剪倾心</title>
 
     <link href="https://fonts.googleapis.com/iconPath?family=Material+Icons" rel="stylesheet"/>
     <link rel="stylesheet" href="assets/materialize/css/materialize.min.css" media="screen,projection"/>
@@ -35,7 +35,7 @@
             </button>
             <a class="navbar-brand waves-effect waves-dark" th:href="@{/}"><i
                     class="large material-icons">insert_chart</i>
-                <strong>Lger 会员系统</strong></a>
+                <strong>一剪倾心会员系统</strong></a>
 
             <div id="sideNav" href=""><i class="material-icons dp48">toc</i></div>
         </div>
@@ -224,42 +224,9 @@
                             </div>
 
                             <div class="row">
-                                <div class="input-field col s6">
-                                    <input placeholder="会员密码" id="password" type="password" class="validate" name="password" onblur="confirmPassword()"/>
-                                    <label for="password">会员密码</label>
-                                </div>
-                                <div class="input-field col s6">
-                                    <input id="confirm" type="password" class="validate" placeholder="确认密码" onblur="confirmPassword()" />
-                                    <label for="confirm">确认密码</label>
-                                </div>
-                                <script>
-
-                                    function confirmPassword(){
-                                        var password = document.getElementById('password');
-                                        var password2 = document.getElementById('confirm');
-
-                                        if (password2.value === '')
-                                            return;
-                                        if (password.value === ''){
-                                            alert('密码不能为空');
-                                            return false;
-                                        }
-
-                                        if (password.value !== password2.value){
-                                            password2.setAttribute('class', 'invalid');
-                                            alert('密码不一致！！');
-                                            return false;
-                                        }
-
-                                        return true;
-                                    }
-                                </script>
-                            </div>
-
-                            <div class="row">
-                                <div class="input-field col s6">
-                                    <input id="email" name="email" type="email" class="validate" placeholder="邮箱">
-                                    <label for="email">邮箱</label>
+                                <div>
+                                    <input id="birthday" name="birthday" type="date" class="validate" placeholder="会员生日">
+                                    <label for="birthday">会员生日</label>
                                 </div>
                                 <div class="input-field col s6">
                                     性别：
@@ -268,11 +235,6 @@
                                     <input name="sex" type="radio" id="woman" value="男">
                                     <label for="woman">女</label>
                                 </div>
-                            </div>
-
-                            <div>
-                                <input id="birthday" name="birthday" type="date" class="validate" placeholder="会员生日">
-                                <label for="birthday">会员生日</label>
                             </div>
 
                             <div class="row">
