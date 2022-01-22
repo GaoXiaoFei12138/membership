@@ -20,9 +20,9 @@ public interface MemberDao extends JpaRepository<Member, String> {
 
     Page<Member> findAll(Pageable pageable);
 
-    @Query("select m from Member m where m.memberName = ?1")
-    Page<Member> findAllByMemberName(String memberName, Pageable pageable);
-//    @Query("SELECT m FROM Member m WHERE CONCAT(title,tag,description) LIKE ‘%关键字%")
+    @Query("select m from Member m where CONCAT(m.memberName,m.phone) LIKE %?1%")
+    Page<Member> findAllByMemberName(String inputQuery, Pageable pageable);
+
 
     @Query("select count(m.id) from  Member  m")
     int queryAllCount();

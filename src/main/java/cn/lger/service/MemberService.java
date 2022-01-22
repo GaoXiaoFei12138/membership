@@ -25,7 +25,11 @@ public class MemberService {
     private MemberDao memberDao;
 
     public Member addMember(Member member){
-        return memberDao.save(member);
+        try {
+            return memberDao.save(member);
+        } catch (Exception e) {
+            throw new RuntimeException("手机号码已被注册");
+        }
     }
 
     public Member findMemberById(String id){
@@ -40,12 +44,12 @@ public class MemberService {
         return memberDao.findAll(pageable);
     }
 
-    public Page<Member> findMembersByMemberName(Integer currentPage, String memberName){
+    public Page<Member> findMembersByMemberName(Integer currentPage, String inputQuery){
         if (currentPage == null){
             currentPage = 1;
         }
         Pageable pageable = PageRequest.of(currentPage, 10, Sort.Direction.ASC, "id");
-        return memberDao.findAllByMemberName(memberName, pageable);
+        return memberDao.findAllByMemberName(inputQuery, pageable);
     }
 
     @Transactional

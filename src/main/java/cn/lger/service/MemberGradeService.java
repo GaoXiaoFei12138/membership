@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -22,29 +23,42 @@ public class MemberGradeService {
     @Resource
     private MemberGradeDao memberGradeDao;
 
-    public List<MemberGrade> findAll(){
+    public List<MemberGrade> findAll() {
         return memberGradeDao.findAll();
     }
 
-    public List<MemberGrade> findMemberGradeByGradeName(String name){
+    public List<MemberGrade> findMemberGradeByGradeName(String name) {
         return memberGradeDao.findMemberGradeByGradeName(name);
     }
 
-    public Page<MemberGrade> findAll(Integer currentPage){
+    public Page<MemberGrade> findAll(Integer currentPage) {
         Pageable pageable = new PageRequest(currentPage, 5);
         return memberGradeDao.findAll(pageable);
     }
 
     @Transactional
-    public void updateMemberGrade(MemberGrade memberGrade){
-        if (memberGradeDao.findMemberGradeById(memberGrade.getId())!=null){
+    public void updateMemberGrade(MemberGrade memberGrade) {
+        if (memberGradeDao.findMemberGradeById(memberGrade.getId()) != null) {
             memberGradeDao.save(memberGrade);
             return;
         }
-        throw new RuntimeException("MemberGrade中不存在当前的id:"+memberGrade.getId());
+        throw new RuntimeException("MemberGrade中不存在当前的id:" + memberGrade.getId());
     }
 
-    public MemberGrade add(MemberGrade memberGrade){
+    public MemberGrade add(MemberGrade memberGrade) {
+        if (StringUtils.isEmpty(memberGrade.getGradeName())
+                && StringUtils.isEmpty(memberGrade.getComment())
+                && StringUtils.isEmpty(memberGrade.getDiscount())) {
+            throw new RuntimeException("输入信息为空");
+        }
         return memberGradeDao.save(memberGrade);
+    }
+
+
+    public void deleteMemberGrade(MemberGrade memberGrade) {
+        if (StringUtils.isEmpty(memberGrade.getId())) {
+            throw new RuntimeException("不能删除空的数据");
+        }
+        memberGradeDao.delete(memberGrade);
     }
 }

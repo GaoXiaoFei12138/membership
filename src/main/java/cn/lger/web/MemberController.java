@@ -73,6 +73,12 @@ public class MemberController {
         member.setEmail("123@qq.com");
         member.setPassword(encoder.encode(member.getPassword()));
 //        System.out.println(member);
+        try {
+            member = memberService.addMember(member);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
         member = memberService.addMember(member);
 
         model.put("member", member);
