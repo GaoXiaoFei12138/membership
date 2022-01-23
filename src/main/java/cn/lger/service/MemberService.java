@@ -2,6 +2,8 @@ package cn.lger.service;
 
 import cn.lger.dao.MemberDao;
 import cn.lger.domain.Member;
+import cn.lger.domain.RegisterTemplate;
+import cn.lger.util.SMSUtil;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,9 +34,6 @@ public class MemberService {
         }
     }
 
-    public Member findMemberById(String id){
-        return memberDao.findMemberById(id);
-    }
 
     public Page<Member> findMembers(Integer currentPage){
         if (currentPage == null){
@@ -70,12 +69,18 @@ public class MemberService {
     @Transactional
     public void balanceRecharge(String id, String balance) {
         Member member = memberDao.findMemberById(id);
-        if (member != null){
-            member.setBalance(member.getBalance()+Float.valueOf(balance));
+        if (member != null) {
+            member.setBalance(member.getBalance() + Float.valueOf(balance));
             memberDao.save(member);
+            RegisterTemplate registerTemplate = new RegisterTemplate();
+            registerTemplate.setMemberName(member.getMemberName());
+            registerTemplate.setPhone(member.getPhone());
+            registerTemplate.setAmount(balance);
+            registerTemplate.setTotalAmount(String.valueOf(member.getBalance()));
+            SMSUtil.sendSMS(registerTemplate);
             return;
         }
-        throw new RuntimeException("Member中不存在当前的id:"+id);
+        throw new RuntimeException("Member中不存在当前的id:" + id);
     }
 
     @Transactional
@@ -93,12 +98,11 @@ public class MemberService {
 
     public List<String> findBirthdayToday() {
         List<String> email = new ArrayList<>();
-//        List<Member> members = memberDao.findByBirthday(LocalDate.now());
         List<Member> members = memberDao.findAll();
         int month = LocalDate.now().getMonthValue();
         int day = LocalDate.now().getDayOfMonth();
         for (Member m: members) {
-            if (m.getLocalDate().getMonthValue() == month && m.getLocalDate().getDayOfMonth() == day)
+            if (m.getBirthday().getMonthValue() == month && m.getBirthday().getDayOfMonth() == day)
                 email.add(m.getEmail());
         }
         return email;

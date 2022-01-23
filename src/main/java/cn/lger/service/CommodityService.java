@@ -4,11 +4,13 @@ import cn.lger.dao.CommodityDao;
 import cn.lger.dao.MemberDao;
 import cn.lger.dao.TransactionRecordDao;
 import cn.lger.domain.Commodity;
+import cn.lger.domain.ConsumeTemplate;
 import cn.lger.domain.Member;
 import cn.lger.domain.TransactionRecord;
 import cn.lger.exception.BalanceNotEnoughException;
 import cn.lger.exception.CommodityNumberNotEnoughException;
 import cn.lger.exception.IdNotFoundException;
+import cn.lger.util.SMSUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -53,25 +55,27 @@ public class CommodityService {
                     //商品数量少1
                     commodity.setCommodityNumber(commodity.getCommodityNumber() - 1);
                     //商品积分增加
-                    member.setMemberIntegral(member.getMemberIntegral()+commodity.getCommodityIntegral());
+                    member.setMemberIntegral(member.getMemberIntegral() + commodity.getCommodityIntegral());
                     memberDao.save(member);
                     commodityDao.save(commodity);
                     TransactionRecord transactionRecord = new TransactionRecord();
                     transactionRecord.setMember(member);
                     transactionRecord.setCommodity(commodity);
                     transactionRecordDao.save(transactionRecord);
+                    sendSMS(member,commodity);
                     return;
                 }
                 throw new BalanceNotEnoughException();
             } else {
                 commodity.setCommodityNumber(commodity.getCommodityNumber() - 1);
-                member.setMemberIntegral(member.getMemberIntegral()+commodity.getCommodityIntegral());
+                member.setMemberIntegral(member.getMemberIntegral() + commodity.getCommodityIntegral());
                 memberDao.save(member);
                 commodityDao.save(commodity);
                 TransactionRecord transactionRecord = new TransactionRecord();
                 transactionRecord.setMember(member);
                 transactionRecord.setCommodity(commodity);
                 transactionRecordDao.save(transactionRecord);
+                sendSMS(member,commodity);
                 return;
             }
 
@@ -81,14 +85,33 @@ public class CommodityService {
 
 
     public void updateMemberGrade(Commodity commodity) {
-        if (commodityDao.findById(commodity.getId())!=null){
+        if (commodityDao.findById(commodity.getId()) != null) {
             commodityDao.save(commodity);
             return;
         }
-        throw new RuntimeException("Commodity中不存在当前的id:"+commodity.getId());
+        throw new RuntimeException("Commodity中不存在当前的id:" + commodity.getId());
+    }
+
+    public void deleteCommodity(Commodity commodity) {
+        if (commodityDao.findById(commodity.getId()) != null) {
+            commodityDao.deleteById(commodity.getId());
+            return;
+        }
+        throw new RuntimeException("Commodity中不存在当前的id:" + commodity.getId());
     }
 
     public Page<Commodity> findAll(Pageable pageable) {
         return commodityDao.findAll(pageable);
+    }
+
+    private void sendSMS(Member member, Commodity commodity) {
+        ConsumeTemplate consumeTemplate = new ConsumeTemplate();
+        consumeTemplate.setPhone(member.getPhone());
+        consumeTemplate.setMemberName(member.getMemberName());
+        consumeTemplate.setAmount(String.valueOf(commodity.getCommodityPrice()));
+        consumeTemplate.setTotalAmount(String.valueOf(member.getBalance()));
+        consumeTemplate.setBalance(String.valueOf(commodity.getCommodityIntegral()));
+        consumeTemplate.setTotalBalance(String.valueOf(member.getMemberIntegral()));
+        SMSUtil.sendSMS(consumeTemplate);
     }
 }

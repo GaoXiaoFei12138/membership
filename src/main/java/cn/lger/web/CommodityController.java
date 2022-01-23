@@ -1,10 +1,13 @@
 package cn.lger.web;
 
 import cn.lger.domain.Commodity;
+import cn.lger.domain.ConsumeTemplate;
+import cn.lger.domain.RegisterTemplate;
 import cn.lger.exception.BalanceNotEnoughException;
 import cn.lger.exception.CommodityNumberNotEnoughException;
 import cn.lger.exception.IdNotFoundException;
 import cn.lger.service.CommodityService;
+import cn.lger.util.SMSUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -75,6 +78,17 @@ public class CommodityController {
     public String updateCommodity(Commodity commodity){
         try{
             commodityService.updateMemberGrade(commodity);
+        } catch (Exception e){
+            e.printStackTrace();
+            return "error";
+        }
+        return "success";
+    }
+    @PostMapping("/deleteCommodity")
+    @ResponseBody
+    public String deleteCommodity(Commodity commodity){
+        try{
+            commodityService.deleteCommodity(commodity);
         } catch (Exception e){
             e.printStackTrace();
             return "error";

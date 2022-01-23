@@ -224,7 +224,7 @@
             <br>
             <br>
             <br>
-            <footer><p class="text-center">Copyright &copy; 2017.Company name All rights reserved.</p></footer>
+            <footer><p class="text-center">Copyright &copy; 2022.Company name All rights reserved.</p></footer>
         </div>
 
     </div>
@@ -263,6 +263,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn waves-effect waves-light" onclick="updateCommodity()">保存修改</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn waves-effect waves-light" onclick="deleteCommodity()">删除</button>
             </div>
         </div>
     </div>
@@ -393,6 +396,32 @@
                 alert(data);
             }
         })
+    }
+
+    function deleteCommodity() {
+        if (confirm('确认删除？')) {
+            var commodityId = $('#commodityId').val();
+            var commodityName = $('#commodityName').val();
+            var commodityNumber = $('#commodityNumber').val();
+            var commodityPrice = $('#commodityPrice').val();
+            var commodityIntegral = $('#commodityIntegral').val();
+
+            $.ajax({
+                url: '/deleteCommodity',
+                type: 'POST',
+                data: {id: commodityId,commodityPrice:commodityPrice,commodityNumber:commodityNumber, commodityIntegral:commodityIntegral, commodityName:commodityName},
+                success: function (data) {
+                    var modal = $('#myModal');
+                    modal.attr('class', 'modal fade');
+                    modal.attr('aria-hidden','true');
+                    modal.attr('style','display:none');
+                    $('.modal-backdrop')[0].remove();
+                    $('body').attr('class', '').attr('style', '');
+                    alert(data);
+                }
+            })
+        }
+        location.reload([true]);
     }
 
 </script>

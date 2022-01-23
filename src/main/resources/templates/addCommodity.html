@@ -189,7 +189,7 @@
                         </div>
                     </div>
                     <div class="card-action">
-                        <a href="javascript:void(0)" onclick="addCommodity()">添加商品</a>
+                        <button type="button" class="btn waves-effect waves-light" onclick="addCommodity()">添加商品</button>
                     </div>
                 <!--</div>-->
             </div>
@@ -198,7 +198,7 @@
             <br>
             <br>
             <br>
-            <footer><p class="text-center">Copyright &copy; 2017.Company name All rights reserved.</p></footer>
+            <footer><p class="text-center">Copyright &copy; 2022.Company name All rights reserved.</p></footer>
         </div>
 
     </div>
@@ -272,7 +272,7 @@
                 type: 'POST',
                 data: {commodityNumber: obj1, commodityIntegral:obj2,commodityPrice:obj3 ,commodityName:obj4},
                 success: function (data) {
-                    alert(data);
+                    alert("success");
                 }
             })
         }

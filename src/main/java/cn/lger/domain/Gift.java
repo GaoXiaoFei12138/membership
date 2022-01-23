@@ -1,5 +1,9 @@
 package cn.lger.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +15,9 @@ import javax.persistence.Id;
  * Created by Pro on 2017-12-13.
  */
 @Entity
+@Getter
+@Setter
+@ToString
 public class Gift {
 
     @Id
@@ -20,44 +27,4 @@ public class Gift {
     private Integer giftIntegral;
     private Integer giftNumber;
     private Float giftPrice;
-
-    public Float getGiftPrice() {
-        return giftPrice;
-    }
-
-    public void setGiftPrice(Float giftPrice) {
-        this.giftPrice = giftPrice;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getGiftName() {
-        return giftName;
-    }
-
-    public void setGiftName(String giftName) {
-        this.giftName = giftName;
-    }
-
-    public Integer getGiftIntegral() {
-        return giftIntegral;
-    }
-
-    public void setGiftIntegral(Integer giftIntegral) {
-        this.giftIntegral = giftIntegral;
-    }
-
-    public Integer getGiftNumber() {
-        return giftNumber;
-    }
-
-    public void setGiftNumber(Integer giftNumber) {
-        this.giftNumber = giftNumber;
-    }
 }

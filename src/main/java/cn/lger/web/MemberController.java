@@ -2,13 +2,12 @@ package cn.lger.web;
 
 import cn.lger.domain.Member;
 import cn.lger.domain.MemberGrade;
-import cn.lger.exception.IdNotFoundException;
-import cn.lger.exception.IntegralNotEnoughException;
-import cn.lger.service.GiftService;
+import cn.lger.domain.RegisterTemplate;
 import cn.lger.service.MemberGradeService;
 import cn.lger.service.MemberService;
 import cn.lger.util.FileUploadUtil;
 import cn.lger.util.MemberNumberRandomUtil;
+import cn.lger.util.SMSUtil;
 import cn.lger.util.UUIDRandomUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -58,6 +57,7 @@ public class MemberController {
             e.printStackTrace();
             return "error";
         }
+
         member.setId(MemberNumberRandomUtil.randomMemberNumber());
         //通过会员等级名获取会员类型
         List<MemberGrade> list = memberGradeService.findMemberGradeByGradeName(gradeName);
@@ -75,12 +75,11 @@ public class MemberController {
 //        System.out.println(member);
         try {
             member = memberService.addMember(member);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "error";
         }
         member = memberService.addMember(member);
-
         model.put("member", member);
         return "addMemberSuccess";
     }

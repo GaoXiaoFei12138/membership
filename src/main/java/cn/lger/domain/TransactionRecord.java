@@ -1,5 +1,8 @@
 package cn.lger.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -13,6 +16,9 @@ import javax.persistence.ManyToOne;
  * Created by Pro on 2017-12-17.
  */
 @Entity
+@Getter
+@Setter
+@ToString
 public class TransactionRecord {
 
     @Id
@@ -23,37 +29,4 @@ public class TransactionRecord {
     private Member member;
     @ManyToOne
     private Commodity commodity;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Member getMember() {
-        return member;
-    }
-
-    public void setMember(Member member) {
-        this.member = member;
-    }
-
-    public Commodity getCommodity() {
-        return commodity;
-    }
-
-    public void setCommodity(Commodity commodity) {
-        this.commodity = commodity;
-    }
-
-    @Override
-    public String toString() {
-        return "TransactionRecord{" +
-                "id='" + id + '\'' +
-                ", member=" + member +
-                ", commodity=" + commodity +
-                '}';
-    }
 }

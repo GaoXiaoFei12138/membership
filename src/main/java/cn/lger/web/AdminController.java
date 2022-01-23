@@ -83,7 +83,7 @@ public class AdminController {
             return "你不是超级管理员";
         }
         admin.setPassword(bCryptPasswordEncoder.encode(admin.getPassword()));
-        admin.setRole(AdminRole.G_ADMIN);
+        admin.setRole(AdminRole.G_ADMIN.toString());
         adminDao.save(admin);
         return "添加成功";
     }

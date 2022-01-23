@@ -16,6 +16,7 @@ import java.util.List;
  */
 public interface MemberDao extends JpaRepository<Member, String> {
 
+    @Query("select m from Member m where CONCAT(m.id,m.phone) LIKE %?1%")
     Member findMemberById(String id);
 
     Page<Member> findAll(Pageable pageable);

@@ -36,7 +36,7 @@ public class TestAdminDao {
         admin.setId(123);
         admin.setUsername("123");
         admin.setPassword("123");
-        admin.setRole(AdminRole.G_ADMIN);
+        admin.setRole(AdminRole.G_ADMIN.toString());
 
         adminDao.save(admin);
     }
@@ -49,7 +49,7 @@ public class TestAdminDao {
         Admin admin = new Admin();
         admin.setUsername("admin");
         admin.setPassword("admin");
-        admin.setRole(AdminRole.S_ADMIN);
+        admin.setRole(AdminRole.S_ADMIN.toString());
 
         adminDao.save(admin);
     }
